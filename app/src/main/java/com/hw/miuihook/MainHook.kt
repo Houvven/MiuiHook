@@ -12,12 +12,32 @@ class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources, IXpose
         TODO("Not yet implemented")
     }
 
-    override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam?) {
-        TODO("Not yet implemented")
+    override fun handleInitPackageResources(resparam: XC_InitPackageResources.InitPackageResourcesParam?) {
+
     }
 
-    override fun handleInitPackageResources(resparam: XC_InitPackageResources.InitPackageResourcesParam?) {
-        TODO("Not yet implemented")
+    override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam?) {
+        when (lpparam?.packageName) {
+            "com.android.systemui" -> {
+
+            }
+
+            "com.miui.securitycenter" -> {
+
+            }
+
+            "com.android.updater" -> {
+
+            }
+
+            "com.miui.powerkeeper" -> {
+
+            }
+
+            "" -> {
+
+            }
+        }
     }
 
 }

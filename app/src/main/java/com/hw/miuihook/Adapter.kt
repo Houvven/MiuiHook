@@ -20,6 +20,13 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
+
+        // 注册点击事件
+        val viewHolder = ViewHolder(view)
+        viewHolder.itemView.setOnClickListener {
+            val position = viewHolder.adapterPosition
+            
+        }
         return ViewHolder(view)
     }
 
