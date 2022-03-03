@@ -1,6 +1,7 @@
 package com.hw.miuihook
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,11 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
                         .edit()
                 editor!!.putString("checked_item", (viewHolder.itemName.text).toString())
                 editor.apply()
+
+                // Start a new MainActivity
+                val intent = Intent(parent.context, MainActivity::class.java)
+                parent.context.startActivity(intent)
+
             }
             // 未激活,注册Toast提示
             else {
