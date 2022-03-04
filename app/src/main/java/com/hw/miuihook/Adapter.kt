@@ -19,6 +19,7 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
         val itemName: TextView = view.findViewById(R.id.item_name)
         val itemSubtitle: TextView = view.findViewById(R.id.item_subtitle)
         val itemRightImage: ImageView = view.findViewById(R.id.item_right_image)
+
         @SuppressLint("UseSwitchCompatOrMaterialCode")
         val itemSwitch: Switch = view.findViewById(R.id.item_switch)
     }
@@ -48,14 +49,21 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
             else {
                 Toast.makeText(parent.context, "模块未激活,请先激活模块", Toast.LENGTH_SHORT).show()
             }
-
         }
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val sharedPreferences: SharedPreferences =
+            holder.itemView.context.getSharedPreferences("temporary", AppCompatActivity.MODE_PRIVATE)
+        val checkedItem = sharedPreferences.getString("temporary", null)
+
         val item = itemList[position]
         holder.itemName.text = item.name
+
+        if (checkedItem == null) {
+            holder.itemSwitch.visibility = View.GONE
+        }
     }
 
     override fun getItemCount() = itemList.size
