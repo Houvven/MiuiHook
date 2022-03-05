@@ -7,6 +7,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class SecurityCenterHook {
 
+    // 手机管家分数锁定100
     fun setExaminationScore100(lpparam: XC_LoadPackage.LoadPackageParam?) {
         try {
             val clazz: Class<*> = XposedHelpers.findClass("com.miui.securityscan.scanner.ScoreManager", lpparam?.classLoader)
@@ -20,6 +21,7 @@ class SecurityCenterHook {
         }
     }
 
+    // 去除自动连招黑名单
     fun removeMacroBlacklist(lpparam: XC_LoadPackage.LoadPackageParam?) {
         try {
             val clazz: Class<*> = XposedHelpers.findClass("com.miui.gamebooster.v.i0", lpparam?.classLoader)
@@ -32,4 +34,6 @@ class SecurityCenterHook {
             XposedBridge.log(e)
         }
     }
+
+    //
 }

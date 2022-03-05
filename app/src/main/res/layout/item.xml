@@ -13,7 +13,10 @@
         <TextView
             android:id="@+id/item_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/item_subtitle"
@@ -29,8 +32,13 @@
 
     <Switch
         android:id="@+id/item_switch"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        android:layout_marginRight="15dp"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="right"
+        tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
 
 </LinearLayout>

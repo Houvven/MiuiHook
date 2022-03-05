@@ -12,7 +12,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.logging.Handler
 
 class SystemUIHook {
 
@@ -67,6 +66,39 @@ class SystemUIHook {
                 }
             }
         })
+    }
+
+    // Remove the Remove the notification icon restriction
+    fun notificationIconRestriction(lpparam: XC_LoadPackage.LoadPackageParam?) {
+        try {
+            val clazz = XposedHelpers.findClass(
+                "com.android.systemui.statusbar.phone.NotificationIconContainer", lpparam?.classLoader
+            )
+            XposedHelpers.findAndHookMethod(clazz, "miuiShowNotificationIcons", Boolean::class.java,
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam?) {
+                        val boolean = param!!.args[0] as Boolean
+                        //val fields: ArrayList<Field> = ArrayList()
+                        val fieldNames: List<String> = listOf("MAX_DOTS", "MAX_STATIC_ICONS", "MAX_VISIBLE_ICONS_ON_LOCK")
+                        //for (fieldName: String in fieldNames) {
+                        //    fields.add(XposedHelpers.findField(clazz, fieldName))
+                        //}
+                        if (boolean) {
+                            for (fieldName: String in fieldNames) {
+                                XposedHelpers.setStaticIntField(clazz, fieldName, 7)
+                            }
+                        }
+                        else {
+                            for (fieldName: String in fieldNames) {
+                                XposedHelpers.setStaticIntField(clazz, fieldName, 0)
+                            }
+                        }
+                        XposedHelpers.callMethod(param.thisObject, "updateState")
+                    }
+                })
+        } catch (e: Exception) {
+            XposedBridge.log(e)
+        }
 
     }
 

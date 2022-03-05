@@ -7,7 +7,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources, IXposedHookZygoteInit {
 
     override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun handleInitPackageResources(resparam: XC_InitPackageResources.InitPackageResourcesParam?) {
@@ -16,11 +16,11 @@ class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources, IXpose
 
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam?) {
         when (lpparam?.packageName) {
-            "com.hw,miuihook" -> {
+            "com.hw.miuihook" -> {
                 XposedHelpers.findAndHookMethod("com.hw.miuihook.Encapsulation", lpparam.classLoader, "isActivated",
                     object : XC_MethodHook() {
                         override fun beforeHookedMethod(param: MethodHookParam?) {
-                            param!!.result = true
+                            param?.result = true
                         }
                     })
             }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hw.miuihook">
 
     <application
@@ -14,13 +15,20 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="" />
+            android:value="MIUI扩展插件" />
         <meta-data
             android:name="xposedminversion"
-            android:value="30" />
+            android:value="93" />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/xposed_scope" />
+        <meta-data
+            android:name="xposedsharedprefs"
+            android:value="true" />
 
         <activity
             android:name=".MainActivity"
+            android:label=""
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

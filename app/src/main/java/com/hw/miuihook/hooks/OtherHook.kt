@@ -1,5 +1,6 @@
 package com.hw.miuihook.hooks
 
+import android.content.pm.ApplicationInfo
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -43,5 +44,32 @@ class OtherHook {
             XposedBridge.log(e)
         }
     }
+
+    // Remove the restriction of "Cannot install system applications from official channels"
+    fun removeInstallAppRestriction(lpparam: XC_LoadPackage.LoadPackageParam?) {
+        try {
+            var clazz: Class<*>? = null
+            var letter = 'a'
+            for (i in 0..25) {
+                clazz = XposedHelpers.findClass("com.android.packageinstaller.$letter",
+                    lpparam?.classLoader)
+                if (clazz.fields.isEmpty() && clazz.declaredFields.size == 1 && clazz.declaredMethods.size >= 10) {
+                    XposedHelpers.findAndHookMethod(clazz, "a", ApplicationInfo::class.java,
+                        object : XC_MethodHook() {
+                            override fun beforeHookedMethod(param: MethodHookParam?) {
+                                param?.result = false
+                            }
+                        })
+                    return
+                }
+                letter++
+            }
+            XposedBridge.log("tag: com.hw.miuihook, Remove the restriction of \"Cannot install system applications from official channels\" can't find class")
+        } catch (e: Exception) {
+            XposedBridge.log(e)
+        }
+    }
+
+
 
 }

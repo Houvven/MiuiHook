@@ -5,10 +5,13 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import de.robv.android.xposed.XSharedPreferences
+import java.lang.invoke.CallSite
 
 class Encapsulation {
 
     val mainItem: List<String> = listOf("系统界面", "手机管家", "系统更新", "七七八八", "凑四个字")
+    val systemUIItem: List<String> = listOf("", "", "", "")
+    val securityCenterItem: List<String> = listOf("分数锁定100", "去除自动连招黑名单")
 
     fun isActivated(): Boolean {
         return false

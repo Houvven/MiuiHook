@@ -27,22 +27,30 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
     @SuppressLint("CommitPrefEdits")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
-
+        val editor: SharedPreferences.Editor? =
+            parent.context.getSharedPreferences("temporary", AppCompatActivity.MODE_PRIVATE).edit()
+        editor!!.clear()
+        editor.apply()
         // 注册点击事件
         val viewHolder = ViewHolder(view)
         viewHolder.itemView.setOnClickListener {
             // 判断mod是否激活
             if (Encapsulation().isActivated()) {
                 val position = viewHolder.adapterPosition
-                val editor: SharedPreferences.Editor? =
-                    parent.context.getSharedPreferences("temporary", AppCompatActivity.MODE_PRIVATE)
-                        .edit()
-                editor!!.putString("checked_item", (viewHolder.itemName.text).toString())
-                editor.apply()
+                // 判断点击的item是否具有二级目录
+                if (Encapsulation().mainItem.indexOf(viewHolder.itemName.text.toString()) != -1) {
 
-                // Start a new MainActivity
-                val intent = Intent(parent.context, MainActivity::class.java)
-                parent.context.startActivity(intent)
+                    // add checked item
+                    editor.putString("checked_item", (viewHolder.itemName.text).toString())
+                    editor.apply()
+
+                    // Start a new MainActivity
+                    val intent = Intent(parent.context, MainActivity::class.java)
+                    parent.context.startActivity(intent)
+
+                }
+
+
 
             }
             // 未激活,注册Toast提示
@@ -53,17 +61,24 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
         return ViewHolder(view)
     }
 
+    @SuppressLint("CommitPrefEdits")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val sharedPreferences: SharedPreferences =
-            holder.itemView.context.getSharedPreferences("temporary", AppCompatActivity.MODE_PRIVATE)
-        val checkedItem = sharedPreferences.getString("temporary", null)
+//        val sharedPreferences: SharedPreferences =
+//            holder.itemView.context.getSharedPreferences("temporary", AppCompatActivity.MODE_PRIVATE)
+//        val checkedItem = sharedPreferences.getString("checked_item", null)
 
         val item = itemList[position]
         holder.itemName.text = item.name
+//        holder.itemSubtitle.visibility = View.GONE
 
-        if (checkedItem == null) {
-            holder.itemSwitch.visibility = View.GONE
+        for (itemName in Encapsulation().mainItem) {
+            if (holder.itemName.text == itemName) {
+                holder.itemSwitch.visibility = View.GONE
+            }
         }
+
+
+
     }
 
     override fun getItemCount() = itemList.size
