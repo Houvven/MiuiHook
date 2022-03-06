@@ -19,9 +19,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        supportActionBar!!.title = null
 
-        val textView: TextView = findViewById(R.id.toolbar_title)
-        val textPaint: TextPaint = textView.paint
+        val textPaint: TextPaint = toolbar_title.paint
         textPaint.strokeWidth = 2.0f
         textPaint.style = Paint.Style.FILL_AND_STROKE
 
@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         val adapter = Adapter(itemList)
         recyclerView.adapter = adapter
+
 //        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
 

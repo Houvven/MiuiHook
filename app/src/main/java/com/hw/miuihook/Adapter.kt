@@ -24,7 +24,7 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
         val itemSwitch: Switch = view.findViewById(R.id.item_switch)
     }
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint("CommitPrefEdits", "WorldReadableFiles")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
         val editor: SharedPreferences.Editor? =
@@ -49,7 +49,10 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
                     parent.context.startActivity(intent)
 
                 }
-
+                else {
+                    val xsp = parent.context.getSharedPreferences("function", AppCompatActivity.MODE_WORLD_READABLE).edit()
+                    viewHolder.itemSwitch.isChecked = !viewHolder.itemSwitch.isChecked
+                }
 
 
             }
