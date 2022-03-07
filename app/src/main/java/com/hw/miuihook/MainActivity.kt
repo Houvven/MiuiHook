@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = Adapter(itemList)
         recyclerView.adapter = adapter
 
-//        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        //recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         val items = when (sharedPreferences.getString("checked_item", null)) {
             "系统界面" -> Encapsulation().systemUIItem
             "手机管家" -> Encapsulation().securityCenterItem
+            "七七八八" -> Encapsulation().otherItem
             else -> Encapsulation().mainItem
         }
         // 清除temporary

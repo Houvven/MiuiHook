@@ -10,7 +10,7 @@ class SecurityCenterHook {
     // 手机管家分数锁定100
     fun setExaminationScore100(lpparam: XC_LoadPackage.LoadPackageParam?) {
         try {
-            val clazz: Class<*> = XposedHelpers.findClass("com.miui.securityscan.scanner.ScoreManager", lpparam?.classLoader)
+            val clazz = XposedHelpers.findClass("com.miui.securityscan.scanner.ScoreManager", lpparam?.classLoader)
             XposedHelpers.findAndHookMethod(clazz, "i", object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam?) {
                     param?.result = 100
@@ -24,12 +24,19 @@ class SecurityCenterHook {
     // 去除自动连招黑名单
     fun removeMacroBlacklist(lpparam: XC_LoadPackage.LoadPackageParam?) {
         try {
-            val clazz: Class<*> = XposedHelpers.findClass("com.miui.gamebooster.v.i0", lpparam?.classLoader)
-            XposedHelpers.findAndHookMethod(clazz, "c", object : XC_MethodHook() {
-                override fun beforeHookedMethod(param: MethodHookParam?) {
-                    param?.result = false
-                }
-            })
+            var letter = 'a'
+            for (i in 0..25) {
+                val clazz = XposedHelpers.findClassIfExists(
+                        "com.miui.gamebooster.v.$letter" + "0", lpparam?.classLoader
+                ) ?: continue
+                XposedHelpers.findAndHookMethod(clazz, "c", String::class.java,
+                    object : XC_MethodHook() {
+                        override fun beforeHookedMethod(param: MethodHookParam?) {
+                            param?.result = false
+                        }
+                    })
+                letter++
+            }
         } catch (e: Exception) {
             XposedBridge.log(e)
         }

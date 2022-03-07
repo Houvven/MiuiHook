@@ -17,12 +17,6 @@ class SystemUIHook {
 
     fun updateTime(lpparam: XC_LoadPackage.LoadPackageParam?) {
         var context: Context? = null
-//            val clazz = try {
-//                XposedHelpers.findClass(
-//                    )
-//            } catch (e: Exception) {
-//                null
-//            }
         val clazz = XposedHelpers.findClassIfExists("com.android.systemui.statusbar.views.MiuiClock", lpparam?.classLoader)
         if (clazz == null) {
             XposedBridge.log("tag:com.hw.miuihook, updateTime can't find clazz")
@@ -78,11 +72,7 @@ class SystemUIHook {
                 object : XC_MethodHook() {
                     override fun beforeHookedMethod(param: MethodHookParam?) {
                         val boolean = param!!.args[0] as Boolean
-                        //val fields: ArrayList<Field> = ArrayList()
                         val fieldNames: List<String> = listOf("MAX_DOTS", "MAX_STATIC_ICONS", "MAX_VISIBLE_ICONS_ON_LOCK")
-                        //for (fieldName: String in fieldNames) {
-                        //    fields.add(XposedHelpers.findField(clazz, fieldName))
-                        //}
                         if (boolean) {
                             for (fieldName: String in fieldNames) {
                                 XposedHelpers.setStaticIntField(clazz, fieldName, 7)

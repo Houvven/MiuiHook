@@ -12,6 +12,8 @@ class Encapsulation {
     val mainItem: List<String> = listOf("系统界面", "手机管家", "系统更新", "七七八八", "凑四个字")
     val systemUIItem: List<String> = listOf("", "", "", "")
     val securityCenterItem: List<String> = listOf("分数锁定100", "去除自动连招黑名单")
+    val updateItem: List<String> = listOf()
+    val otherItem: List<String> = listOf("强制使用峰值刷新率", "去除系统应用安装限制")
 
     fun isActivated(): Boolean {
         return false

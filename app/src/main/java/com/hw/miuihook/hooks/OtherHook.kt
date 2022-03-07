@@ -9,7 +9,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class OtherHook {
 
     fun forceMaxFps(lpparam: XC_LoadPackage.LoadPackageParam?) {
-        var clazz: Class<*>? = XposedHelpers.findClassIfExists(
+        var clazz = XposedHelpers.findClassIfExists(
             "com.miui.powerkeeper.statemachine.DisplayFrameSetting", lpparam?.classLoader
         )
         if (clazz != null) {
@@ -48,11 +48,13 @@ class OtherHook {
     // Remove the restriction of "Cannot install system applications from official channels"
     fun removeInstallAppRestriction(lpparam: XC_LoadPackage.LoadPackageParam?) {
         try {
-            var clazz: Class<*>? = null
+            var clazz: Class<*>?
             var letter = 'a'
             for (i in 0..25) {
-                clazz = XposedHelpers.findClass("com.android.packageinstaller.$letter",
-                    lpparam?.classLoader)
+                clazz = XposedHelpers.findClassIfExists("com.android.packageinstaller.$letter", lpparam?.classLoader)
+                if (clazz == null) {
+                    continue
+                }
                 if (clazz.fields.isEmpty() && clazz.declaredFields.size == 1 && clazz.declaredMethods.size >= 10) {
                     XposedHelpers.findAndHookMethod(clazz, "a", ApplicationInfo::class.java,
                         object : XC_MethodHook() {

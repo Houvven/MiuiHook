@@ -52,6 +52,8 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
                 else {
                     val xsp = parent.context.getSharedPreferences("function", AppCompatActivity.MODE_WORLD_READABLE).edit()
                     viewHolder.itemSwitch.isChecked = !viewHolder.itemSwitch.isChecked
+                    xsp.putBoolean(viewHolder.itemName.text.toString(), viewHolder.itemSwitch.isChecked)
+                    xsp.apply()
                 }
 
 
@@ -64,15 +66,17 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
         return ViewHolder(view)
     }
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint("CommitPrefEdits", "WorldReadableFiles")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        val sharedPreferences: SharedPreferences =
-//            holder.itemView.context.getSharedPreferences("temporary", AppCompatActivity.MODE_PRIVATE)
-//        val checkedItem = sharedPreferences.getString("checked_item", null)
 
         val item = itemList[position]
         holder.itemName.text = item.name
-//        holder.itemSubtitle.visibility = View.GONE
+        //holder.itemSubtitle.visibility = View.GONE
+
+        if (Encapsulation().isActivated()) {
+            val xsp = holder.itemView.context.getSharedPreferences("function", AppCompatActivity.MODE_WORLD_READABLE)
+            holder.itemSwitch.isChecked = xsp.getBoolean(holder.itemName.text.toString(), false)
+        }
 
         for (itemName in Encapsulation().mainItem) {
             if (holder.itemName.text == itemName) {
