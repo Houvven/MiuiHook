@@ -1,7 +1,9 @@
 package com.hw.miuihook
 
+import com.hw.miuihook.hooks.FuckAds
 import com.hw.miuihook.hooks.OtherHook
 import com.hw.miuihook.hooks.SecurityCenterHook
+import com.hw.miuihook.hooks.SystemUIHook
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -29,10 +31,18 @@ class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources, IXpose
                     })
             }
 
+            // 系统界面
             "com.android.systemui" -> {
+                if (Encapsulation().getBoolean("时钟显秒")) {
+                    SystemUIHook().updateTime(lpparam)
+                }
 
+                if (Encapsulation().getBoolean("去除通知图标限制")) {
+                    SystemUIHook().notificationIconRestriction(lpparam)
+                }
             }
 
+            // 手机管家
             "com.miui.securitycenter" -> {
                 if (Encapsulation().getBoolean("分数锁定100")) {
                     SecurityCenterHook().setExaminationScore100(lpparam)
@@ -43,23 +53,33 @@ class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources, IXpose
                 }
             }
 
+            // 系统更新
             "com.android.updater" -> {
 
             }
 
+            // 电量与性能
             "com.miui.powerkeeper" -> {
                 if (Encapsulation().getBoolean("强制使用峰值刷新率")) {
                     OtherHook().forceMaxFps(lpparam)
                 }
+            }
 
+            // 应用包管理组件
+            "com.miui.packageinstaller" -> {
                 if (Encapsulation().getBoolean("去除系统应用安装限制")) {
                     OtherHook().removeInstallAppRestriction(lpparam)
                 }
             }
 
-            "" -> {
-
+            // 万能遥控
+            "com.duokan.phone.remotecontroller" -> {
+                if (Encapsulation().getBoolean("万能遥控")) {
+                    FuckAds().remoteController(lpparam)
+                }
             }
+
+
         }
     }
 

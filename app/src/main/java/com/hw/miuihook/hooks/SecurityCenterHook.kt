@@ -29,12 +29,15 @@ class SecurityCenterHook {
                 val clazz = XposedHelpers.findClassIfExists(
                         "com.miui.gamebooster.v.$letter" + "0", lpparam?.classLoader
                 ) ?: continue
-                XposedHelpers.findAndHookMethod(clazz, "c", String::class.java,
-                    object : XC_MethodHook() {
-                        override fun beforeHookedMethod(param: MethodHookParam?) {
-                            param?.result = false
-                        }
-                    })
+                if (clazz.declaredMethods.size in 6..12 && clazz.fields.isEmpty() && clazz.declaredFields.size >= 2) {
+                    XposedHelpers.findAndHookMethod(clazz, "c", String::class.java,
+                        object : XC_MethodHook() {
+                            override fun beforeHookedMethod(param: MethodHookParam?) {
+                                param?.result = false
+                            }
+                        })
+                    return
+                }
                 letter++
             }
         } catch (e: Exception) {

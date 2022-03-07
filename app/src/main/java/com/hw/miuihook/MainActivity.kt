@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             "系统界面" -> Encapsulation().systemUIItem
             "手机管家" -> Encapsulation().securityCenterItem
             "七七八八" -> Encapsulation().otherItem
+            "去广告" -> Encapsulation().fuckAdsItem
             else -> Encapsulation().mainItem
         }
         // 清除temporary

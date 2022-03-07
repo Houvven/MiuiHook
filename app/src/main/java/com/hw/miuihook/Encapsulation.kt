@@ -9,11 +9,13 @@ import java.lang.invoke.CallSite
 
 class Encapsulation {
 
+    val hasSecondaryMenuItem: List<String> = listOf("系统界面", "手机管家", "系统更新", "七七八八", "凑四个字", "去广告")
     val mainItem: List<String> = listOf("系统界面", "手机管家", "系统更新", "七七八八", "凑四个字")
-    val systemUIItem: List<String> = listOf("", "", "", "")
+    val systemUIItem: List<String> = listOf("时钟显秒", "去除通知图标限制")
     val securityCenterItem: List<String> = listOf("分数锁定100", "去除自动连招黑名单")
     val updateItem: List<String> = listOf()
-    val otherItem: List<String> = listOf("强制使用峰值刷新率", "去除系统应用安装限制")
+    val otherItem: List<String> = listOf("去广告", "强制使用峰值刷新率", "去除系统应用安装限制")
+    val fuckAdsItem: List<String> = listOf("万能遥控")
 
     fun isActivated(): Boolean {
         return false

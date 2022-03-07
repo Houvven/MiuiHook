@@ -38,7 +38,7 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
             if (Encapsulation().isActivated()) {
                 val position = viewHolder.adapterPosition
                 // 判断点击的item是否具有二级目录
-                if (Encapsulation().mainItem.indexOf(viewHolder.itemName.text.toString()) != -1) {
+                if (Encapsulation().hasSecondaryMenuItem.indexOf(viewHolder.itemName.text.toString()) != -1) {
 
                     // add checked item
                     editor.putString("checked_item", (viewHolder.itemName.text).toString())
@@ -55,7 +55,6 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
                     xsp.putBoolean(viewHolder.itemName.text.toString(), viewHolder.itemSwitch.isChecked)
                     xsp.apply()
                 }
-
 
             }
             // 未激活,注册Toast提示
@@ -78,13 +77,11 @@ class Adapter(private val itemList: List<Function>) : RecyclerView.Adapter<Adapt
             holder.itemSwitch.isChecked = xsp.getBoolean(holder.itemName.text.toString(), false)
         }
 
-        for (itemName in Encapsulation().mainItem) {
+        for (itemName in Encapsulation().hasSecondaryMenuItem) {
             if (holder.itemName.text == itemName) {
                 holder.itemSwitch.visibility = View.GONE
             }
         }
-
-
 
     }
 
