@@ -21,7 +21,7 @@ class SecurityCenterHook {
         }
     }
 
-    // 去除自动连招黑名单
+    // remove Macro's blacklist
     fun removeMacroBlacklist(lpparam: XC_LoadPackage.LoadPackageParam?) {
         try {
             var letter = 'a'
@@ -46,4 +46,34 @@ class SecurityCenterHook {
     }
 
     //
+    fun memc(lpparam: XC_LoadPackage.LoadPackageParam?) {
+        try {
+            val clazz = XposedHelpers.findClass(
+                "com.miui.gamebooster.videobox.utils.n",
+                lpparam?.classLoader
+            )
+            val fieldNames: List<String> = listOf("a", "b", "c")
+            for (fieldName in fieldNames) {
+                val field = XposedHelpers.getStaticObjectField(clazz, fieldName) as List<String>
+                val newList = mutableListOf<String>()
+                newList.addAll(field)
+                XposedHelpers.setStaticObjectField(clazz, fieldName, newList.toList())
+            }
+        } catch (e: Exception) {
+            XposedBridge.log(e)
+        }
+    }
+
+    fun forceOn(lpparam: XC_LoadPackage.LoadPackageParam?) {
+        try {
+            val clazz = XposedHelpers.findClass("", lpparam?.classLoader)
+            XposedHelpers.findAndHookMethod(clazz, "", object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+
+                }
+            })
+        }catch (e: Exception) {
+            XposedBridge.log(e)
+        }
+    }
 }

@@ -56,8 +56,10 @@ class MainActivity : AppCompatActivity() {
             else -> Encapsulation().mainItem
         }
         // 清除temporary
-        sharedPreferences.edit().clear()
-        sharedPreferences.edit().apply()
+        sharedPreferences.run {
+            edit().clear()
+            edit().apply()
+        }
 
         for (name: String in items) {
             itemList.add(Function(name))

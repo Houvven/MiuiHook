@@ -1,5 +1,6 @@
 package com.hw.miuihook.hooks
 
+import android.content.Context
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -22,4 +23,22 @@ class FuckAds {
         }
     }
 
+    fun mms(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val clazz = XposedHelpers.findClass("com.miui.smsextra.ui.BottomMenu", lpparam.classLoader)
+        XposedHelpers.findAndHookMethod(clazz, "allowMenuMode", Context::class.java,
+            object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    param?.result = false
+                }
+            })
+    }
+
+    fun theme(lpparam: XC_LoadPackage.LoadPackageParam) {
+        val clazz = XposedHelpers.findClass("", lpparam.classLoader)
+        XposedHelpers.findAndHookMethod(clazz, "", object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam?) {
+
+            }
+        })
+    }
 }

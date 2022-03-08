@@ -47,9 +47,7 @@ class SystemUIHook {
                         }
                         if (textView.resources.getResourceEntryName(textView.id) == "clock") {
                             Timer().scheduleAtFixedRate(
-                                T(),
-                                1000 - System.currentTimeMillis() % 1000,
-                                1000
+                                T(), 1000 - System.currentTimeMillis() % 1000, 1000
                             )
                         }
                     }
@@ -92,6 +90,24 @@ class SystemUIHook {
             XposedBridge.log(e)
         }
 
+    }
+
+    fun ChargeAnimation(lpparam: XC_LoadPackage.LoadPackageParam?) {
+        try {
+            val clazz = XposedHelpers.findClass(
+                "com.android.keyguard.charge.ChargeUtils",
+                lpparam?.classLoader
+            )
+            XposedHelpers.findAndHookMethod(clazz, "supportWaveChargeAnimation", object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam?) {
+                    param?.result = true
+                }
+            })
+            
+
+        } catch (e: Exception) {
+            XposedBridge.log(e)
+        }
     }
 
 }

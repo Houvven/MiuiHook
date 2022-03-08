@@ -1,9 +1,6 @@
 package com.hw.miuihook
 
-import com.hw.miuihook.hooks.FuckAds
-import com.hw.miuihook.hooks.OtherHook
-import com.hw.miuihook.hooks.SecurityCenterHook
-import com.hw.miuihook.hooks.SystemUIHook
+import com.hw.miuihook.hooks.*
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -50,12 +47,13 @@ class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources, IXpose
 
                 if (Encapsulation().getBoolean("去除自动连招黑名单")) {
                     SecurityCenterHook().removeMacroBlacklist(lpparam)
+                    SecurityCenterHook().memc(lpparam)
                 }
             }
 
             // 系统更新
             "com.android.updater" -> {
-
+                UpdaterHook(lpparam)
             }
 
             // 电量与性能
