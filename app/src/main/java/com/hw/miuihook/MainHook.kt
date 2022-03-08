@@ -31,42 +31,42 @@ class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources, IXpose
             // 系统界面
             "com.android.systemui" -> {
                 if (Encapsulation().getBoolean("时钟显秒")) {
-                    SystemUIHook().updateTime(lpparam)
+                    SystemUI().updateTime(lpparam)
                 }
 
                 if (Encapsulation().getBoolean("去除通知图标限制")) {
-                    SystemUIHook().notificationIconRestriction(lpparam)
+                    SystemUI().notificationIconRestriction(lpparam)
                 }
             }
 
             // 手机管家
             "com.miui.securitycenter" -> {
                 if (Encapsulation().getBoolean("分数锁定100")) {
-                    SecurityCenterHook().setExaminationScore100(lpparam)
+                    SecurityCenter().setExaminationScore100(lpparam)
                 }
 
                 if (Encapsulation().getBoolean("去除自动连招黑名单")) {
-                    SecurityCenterHook().removeMacroBlacklist(lpparam)
-                    SecurityCenterHook().memc(lpparam)
+                    SecurityCenter().removeMacroBlacklist(lpparam)
+                    SecurityCenter().memc(lpparam)
                 }
             }
 
             // 系统更新
             "com.android.updater" -> {
-                UpdaterHook(lpparam)
+                Updater().init(lpparam)
             }
 
             // 电量与性能
             "com.miui.powerkeeper" -> {
                 if (Encapsulation().getBoolean("强制使用峰值刷新率")) {
-                    OtherHook().forceMaxFps(lpparam)
+                    Other().forceMaxFps(lpparam)
                 }
             }
 
             // 应用包管理组件
             "com.miui.packageinstaller" -> {
                 if (Encapsulation().getBoolean("去除系统应用安装限制")) {
-                    OtherHook().removeInstallAppRestriction(lpparam)
+                    Other().removeInstallAppRestriction(lpparam)
                 }
             }
 

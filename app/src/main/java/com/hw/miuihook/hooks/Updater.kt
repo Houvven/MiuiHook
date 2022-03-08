@@ -5,10 +5,9 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
-class UpdaterHook constructor(lpparam: XC_LoadPackage.LoadPackageParam) {
+class Updater {
 
-
-    fun mian(lpparam: XC_LoadPackage.LoadPackageParam) {
+    fun init(lpparam: XC_LoadPackage.LoadPackageParam) {
         try {
             var letter = 'a'
             for (i in 1..25) {
@@ -51,4 +50,5 @@ class UpdaterHook constructor(lpparam: XC_LoadPackage.LoadPackageParam) {
             XposedBridge.log(e)
         }
     }
+
 }

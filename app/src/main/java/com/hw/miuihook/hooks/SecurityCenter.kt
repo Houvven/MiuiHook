@@ -5,7 +5,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
-class SecurityCenterHook {
+class SecurityCenter {
 
     // 手机管家分数锁定100
     fun setExaminationScore100(lpparam: XC_LoadPackage.LoadPackageParam?) {

@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class SystemUIHook {
+class SystemUI {
 
     fun updateTime(lpparam: XC_LoadPackage.LoadPackageParam?) {
         try {

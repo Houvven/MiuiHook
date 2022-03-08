@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         val items = when (sharedPreferences.getString("checked_item", null)) {
             "系统界面" -> Encapsulation().systemUIItem
             "手机管家" -> Encapsulation().securityCenterItem
+            "系统更新" -> Encapsulation().updateItem
             "七七八八" -> Encapsulation().otherItem
             "去广告" -> Encapsulation().fuckAdsItem
             else -> Encapsulation().mainItem
