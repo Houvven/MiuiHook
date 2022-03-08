@@ -22,3 +22,4 @@
 
 -dontpreverify
 -keep class com.hw.miuihook.MainHook { *; }
+-keep class com.hw.miuihook.Encapsulation { isActivated(); }
