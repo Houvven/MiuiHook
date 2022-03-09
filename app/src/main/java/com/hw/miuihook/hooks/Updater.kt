@@ -7,16 +7,20 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class Updater {
 
-    fun init(lpparam: XC_LoadPackage.LoadPackageParam) {
+    fun init(lpparam: XC_LoadPackage.LoadPackageParam?, otaValidate: Boolean, versionLogo: Boolean) {
         try {
             var letter = 'a'
-            for (i in 1..25) {
+            for (i in 0..25) {
                 val clazz = XposedHelpers.findClassIfExists(
-                    "com.android.updater.common.utils.$letter", lpparam.classLoader
+                    "com.android.updater.common.utils.$letter", lpparam?.classLoader
                 ) ?: continue
                 if (clazz.declaredFields.size >= 9 && clazz.declaredMethods.size > 60) {
-                    fuckOtaValidate(clazz)
-                    versionImg(clazz)
+                    if (otaValidate) {
+                        fuckOtaValidate(clazz)
+                    }
+                    if (versionLogo) {
+                        versionImg(clazz)
+                    }
                     return
                 }
                 letter++

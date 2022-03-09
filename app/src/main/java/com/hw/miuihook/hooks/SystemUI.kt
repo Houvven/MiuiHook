@@ -92,7 +92,7 @@ class SystemUI {
 
     }
 
-    fun ChargeAnimation(lpparam: XC_LoadPackage.LoadPackageParam?) {
+    fun chargeAnimation(lpparam: XC_LoadPackage.LoadPackageParam?) {
         try {
             val clazz = XposedHelpers.findClass(
                 "com.android.keyguard.charge.ChargeUtils",
@@ -103,8 +103,23 @@ class SystemUI {
                     param?.result = true
                 }
             })
-            
 
+
+        } catch (e: Exception) {
+            XposedBridge.log(e)
+        }
+    }
+
+    fun networkSpeed(lpparam: XC_LoadPackage.LoadPackageParam?) {
+        try {
+            val clazz =XposedHelpers.findClass(
+                "com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam?.classLoader
+            )
+            XposedHelpers.findAndHookMethod(clazz, "postUpdateNetworkSpeedDelay", Long::class.java, object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam?) {
+                        param!!.args[0] = 1000.toLong()
+                }
+            })
         } catch (e: Exception) {
             XposedBridge.log(e)
         }

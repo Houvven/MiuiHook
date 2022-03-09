@@ -30,12 +30,17 @@ class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources, IXpose
 
             // 系统界面
             "com.android.systemui" -> {
+                StatusBarIcon(lpparam)
                 if (Encapsulation().getBoolean("时钟显秒")) {
                     SystemUI().updateTime(lpparam)
                 }
 
                 if (Encapsulation().getBoolean("去除通知图标限制")) {
                     SystemUI().notificationIconRestriction(lpparam)
+                }
+
+                if (Encapsulation().getBoolean("实时网速刷新率")) {
+                    SystemUI().networkSpeed(lpparam)
                 }
             }
 
@@ -53,8 +58,13 @@ class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources, IXpose
 
             // 系统更新
             "com.android.updater" -> {
-                Updater().init(lpparam)
+                val otaValidate = Encapsulation().getBoolean("去除OTA验证")
+                val versionLogo = Encapsulation().getBoolean("开发版logo改稳定版")
+                if (otaValidate || versionLogo) {
+                    Updater().init(lpparam, otaValidate, versionLogo)
+                }
             }
+
 
             // 电量与性能
             "com.miui.powerkeeper" -> {
@@ -74,6 +84,13 @@ class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources, IXpose
             "com.duokan.phone.remotecontroller" -> {
                 if (Encapsulation().getBoolean("万能遥控")) {
                     FuckAds().remoteController(lpparam)
+                }
+            }
+
+            // 主题壁纸
+            "com.android.thememanager" -> {
+                if (Encapsulation().getBoolean("主题壁纸")) {
+                    FuckAds().themeManager(lpparam)
                 }
             }
 
